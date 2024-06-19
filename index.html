@@ -25,7 +25,7 @@
         </div>
 
         <div id="conhecimento">
-            <h1>LINGUAGENS</h1>
+            <h1>CONHECIMENTO</h1>
             <table>
                 <thead>
                     <tr>
@@ -81,6 +81,7 @@
             <ul>
                 <li>
                     <h2>JAVA com SPRINGBOOT e WEB</h2>
+                    <h2>ADICIONAR IMAGENS</h2>
                     <p>Link do projeto: <a target="_blank" href="https://github.com/PedroPepeu/chain.git">https://github.com/PedroPepeu/chain.git</a></p>
                     <p>Na cadeira de Engenharia de Software I, nos foi passado um projeto em grupo(5 pessoas) para praticar SCRUM, onde tínhamos que planejar um site ou app e integrar o banco de dados à interface.</p>
                     <p>No projeto eu criei o springboot e as classes básicas das entidades, controllers e os repositories, também fiquei responsável por integrar o banco de dados ao web junto com outro integrante.</p>
@@ -88,6 +89,7 @@
 
                 <li>
                     <h2>Banco de Dados com FLASK(PYTHON)</h2>
+                    <h2>ADICIONAR IMAGENS</h2>
                     <p>Link do projeto: <a target="_blank" href="https://github.com/FlavioSimoes2004/BancoDeDados-Projeto2.git">https://github.com/FlavioSimoes2004/BancoDeDados-Projeto2.git</a> (dentro da pasta 'Projeto 4')</p>
 
                 </li>
@@ -102,7 +104,7 @@
             <p>Preto significa que o número não está presente.</p>
 
             <form>
-                <input id="in_num" type="text" placeholder="Insira 4 números. Ex:1234">
+                <input id="in_num" type="number" maxlength="4" placeholder="Insira 4 números. Ex:1234">
                 <input id="bt_num" type="button" value="Testar número">
                 <label id="tentativasLabel">Tentativas: 5</label>
             </form>
@@ -123,6 +125,7 @@
 
         <script>
 
+            const numbersList = '1234567890';
             let number = [0, 0, 0, 0];
 
             function generateRandomNumber() {
@@ -147,10 +150,20 @@
 
             generateRandomNumber();
 
-            const maxTentativas = 7;
+            const maxTentativas = 10;
             var tentativasRestantes = maxTentativas;
 
             const in_num = document.getElementById('in_num');
+            in_num.oninput = () => {
+                if(!numbersList.includes(in_num.value[in_num.value.length-1])){
+                    in_num.value = in_num.value.slice(0, in_num.value.length);
+                }
+
+                if(in_num.value.length > 4){
+                    in_num.value = in_num.value.slice(0, 4);
+                }
+            }
+
             const bt_num = document.getElementById('bt_num');
             const tentativasLabel = document.getElementById('tentativasLabel');
             tentativasLabel.innerHTML = 'Tentativas: ' + tentativasRestantes;
