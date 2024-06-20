@@ -148,6 +148,7 @@
                     if(colorArr[0] === 'azul' && colorArr[1] === 'azul' && colorArr[2] === 'azul' && colorArr[3] === 'azul')
                     {
                         tentativasRestantes = maxTentativas;
+                        tentativasContainer.innerHTML = '';
                         generateRandomNumber();
                         alert('Parabéns! Você acertou o número.');
                     }
@@ -158,6 +159,7 @@
                         if(tentativasRestantes === 0)
                         {
                             tentativasRestantes = maxTentativas;
+                            tentativasContainer.innerHTML = '';
                             alert('Você perdeu! O número correto era: ' + number[0] + number[1] + number[2] + number[3]);
                             generateRandomNumber()
                         }
