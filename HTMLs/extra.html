@@ -3,13 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../CSSs/extra.css" rel="stylesheet">
         <title>Document</title>
     </head>
     <body>
         <h1>EXTRA</h1>
         <h3>Joguinho para descobrir o número</h3>
         <p><span id="azul">Azul</span> significa que o número está correto na posição correta.</p>
-        <p><span id="orange">Laranja</span> significa que o número existe, porém, está na posição errada.</p>
+        <p><span id="laranja">Laranja</span> significa que o número existe, porém, está na posição errada.</p>
         <p>Preto significa que o número não está presente.</p>
 
         <form>
@@ -35,16 +36,41 @@
                 console.log(number);
             }
 
-            function numberExist(num){
+            function verifyNumber(input_num){
+                //             [4, 3, 2, 1]
+                //             [1, 2, 3, 4]
+                let otherArr = [0, 0, 0, 0];
+                let colorArr = ['', '', '', ''];
+
                 for(let i = 0; i < number.length; i++)
                 {
-                    if(num == number[i])
+                    if(input_num[i] == number[i])
                     {
-                        return true;
+                        otherArr[i] = 1;
+                        colorArr[i] = 'azul';
                     }
                 }
 
-                return false;
+                for(let i = 0; i < input_num.length; i++)
+                {
+                    if(colorArr[i] === '')
+                    {
+                        for(let j = 0; j < number.length; j++)
+                        {
+                            if(otherArr[j] === 0)
+                            {
+                                if(input_num[i] == number[j])
+                                {
+                                    otherArr[j] = 1;
+                                    colorArr[i] = 'laranja';
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return colorArr;
             }
 
             generateRandomNumber();
@@ -70,18 +96,16 @@
 
 
             class tentativa{
-                constructor(num1, num2, num3, num4){
-                    this.num1 = num1;
-                    this.num2 = num2;
-                    this.num3 = num3;
-                    this.num4 = num4;
+                constructor(num, color){
+                    this.num = num;
+                    this.color = color;
 
                     this.render();
                 }
 
                 render(){
                     this.createElements();
-                    tentativasContainer.append(this.p);
+                    tentativasContainer.insertBefore(this.p, tentativasContainer.firstChild);
                 }
 
                 createElements(){
@@ -91,45 +115,17 @@
                     this.span3 = document.createElement('span');
                     this.span4 = document.createElement('span');
 
-                    this.span1.innerHTML = this.num1;
-                    if(this.num1 == number[0]) //se existe e esta na posição correta
-                    {
-                        this.span1.style.color = 'rgb(0, 0, 255)';
-                    }
-                    else if(numberExist(this.num1)) //se existe e esta na posicao errada
-                    {
-                        this.span1.style.color = 'rgb(255, 100, 0)';
-                    }
+                    this.span1.innerHTML = this.num[0];
+                    this.span1.id = this.color[0];
 
-                    this.span2.innerHTML = this.num2;
-                    if(this.num2 == number[1]) //se existe e esta na posição correta
-                    {
-                        this.span2.style.color = 'rgb(0, 0, 255)';
-                    }
-                    else if(numberExist(this.num2)) //se existe e esta na posicao errada
-                    {
-                        this.span2.style.color = 'rgb(255, 100, 0)';
-                    }
+                    this.span2.innerHTML = this.num[1];
+                    this.span2.id = this.color[1];
 
-                    this.span3.innerHTML = this.num3;
-                    if(this.num3 == number[2]) //se existe e esta na posição correta
-                    {
-                        this.span3.style.color = 'rgb(0, 0, 255)';
-                    }
-                    else if(numberExist(this.num3)) //se existe e esta na posicao errada
-                    {
-                        this.span3.style.color = 'rgb(255, 100, 0)';
-                    }
+                    this.span3.innerHTML = this.num[2];
+                    this.span3.id = this.color[2];
 
-                    this.span4.innerHTML = this.num4;
-                    if(this.num4 == number[3]) //se existe e esta na posição correta
-                    {
-                        this.span4.style.color = 'rgb(0, 0, 255)';
-                    }
-                    else if(numberExist(this.num4)) //se existe e esta na posicao errada
-                    {
-                        this.span4.style.color = 'rgb(255, 100, 0)';
-                    }
+                    this.span4.innerHTML = this.num[3];
+                    this.span4.id = this.color[3];
 
                     this.p.append(this.span1);
                     this.p.append(this.span2);
@@ -140,28 +136,35 @@
 
             function testarNumero(){
                 in_numbers = in_num.value;
-                if(in_numbers[0] == number[0] && in_numbers[1] == number[1] && in_numbers[2] == number[2] && in_numbers[3] == number[3])
+                if(in_numbers.length !== 4)
                 {
-                    tentativasRestantes = maxTentativas;
-                    generateRandomNumber();
-                    alert('Parabéns! Você acertou o número.');
-                    tentativasContainer.innerHTML = "";
+                    alert('Por favor, inserir um 4 dígitos.');
                 }
                 else
                 {
-                    tentativasRestantes--;
-                    new tentativa(in_numbers[0], in_numbers[1], in_numbers[2], in_numbers[3]);
+                    const colorArr = verifyNumber(in_numbers);
+                    console.log(colorArr);
 
-                    if(tentativasRestantes <= 0)
+                    if(colorArr[0] === 'azul' && colorArr[1] === 'azul' && colorArr[2] === 'azul' && colorArr[3] === 'azul')
                     {
                         tentativasRestantes = maxTentativas;
-                        alert('Você perdeu! o número correto era: ' + number[0] + number[1] + number[2] + number[3]);
                         generateRandomNumber();
-                        tentativasContainer.innerHTML = "";
+                        alert('Parabéns! Você acertou o número.');
                     }
-                }
+                    else
+                    {
+                        new tentativa(in_numbers, colorArr);
+                        tentativasRestantes--;
+                        if(tentativasRestantes === 0)
+                        {
+                            tentativasRestantes = maxTentativas;
+                            alert('Você perdeu! O número correto era: ' + number[0] + number[1] + number[2] + number[3]);
+                            generateRandomNumber()
+                        }
+                    }
 
-                tentativasLabel.innerHTML = 'Tentativas: ' + tentativasRestantes;
+                    tentativasLabel.innerHTML = 'Tentativas: ' + tentativasRestantes;
+                }
             }
 
             bt_num.onclick = testarNumero;

@@ -58,28 +58,7 @@ iframe{
     width: 100vw;
 }
 
-/*div {
-    color: black;
-}
-
-#conhecimento table{
-    border: 5px solid;
-}
-
-#conhecimento table tr, #conhecimento table tr th, #conhecimento table tr td{
-    background-color: rgb(255, 255, 125);
-    text-align: center;
-}
-
-#conhecimento table a:link, #conhecimento table a:visited{
-    color: rgb(0, 0, 255);
-}
-
-#conhecimento table a:hover, #conhecimento table a:active{
-    color: rgb(11, 11, 110);
-}
-
-#tentativasLabel{
+/*#tentativasLabel{
     color: red;
 }
 
