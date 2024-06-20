@@ -1,3 +1,8 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
 body{
     background-color: rgb(196, 196, 196);
 }
@@ -13,20 +18,47 @@ nav ul{
 
 nav ul li{
     display: inline-block;
-    margin-right: 5vw;
+    position: relative;
+    /*margin-right: 5vw;*/
+}
+
+nav ul li a{
+    display: block;
+    text-decoration: none;
+    padding: 10px 15px;
+    text-align: center;
 }
 
 nav ul li a:link, nav ul li a:visited{
-    text-decoration: none;
     color: rgb(255, 255, 0);
 }
 
 nav ul li a:hover, nav ul li a:active{
-    text-decoration: none;
     color: rgb(131, 131, 8);
 }
 
-div {
+nav ul li ul.dropdown{
+    display: none;
+    width: 100%;
+    position: absolute;
+    z-index: 999;
+    background-color: rgb(107, 107, 107);
+}
+
+nav ul li:hover ul.dropdown{
+    display: block;
+}
+
+nav ul li ul.dropdown li{
+    display: block;
+}
+
+iframe{
+    border: none;
+    width: 100vw;
+}
+
+/*div {
     color: black;
 }
 
@@ -35,13 +67,11 @@ div {
 }
 
 #conhecimento table tr, #conhecimento table tr th, #conhecimento table tr td{
-    /*border: 5px solid;*/
     background-color: rgb(255, 255, 125);
     text-align: center;
 }
 
 #conhecimento table a:link, #conhecimento table a:visited{
-    /*text-decoration: none;*/
     color: rgb(0, 0, 255);
 }
 
@@ -59,4 +89,4 @@ div {
 
 #orange{
     color: rgb(255, 100, 0);
-}
+}*/

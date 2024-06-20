@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>EXTRA</h1>
+        <h3>Joguinho para descobrir o número</h3>
+        <p><span id="azul">Azul</span> significa que o número está correto na posição correta.</p>
+        <p><span id="orange">Laranja</span> significa que o número existe, porém, está na posição errada.</p>
+        <p>Preto significa que o número não está presente.</p>
+
+        <form>
+            <input id="in_num" type="number" maxlength="4" placeholder="Insira 4 números. Ex:1234">
+            <input id="bt_num" type="button" value="Testar número">
+            <label id="tentativasLabel">Tentativas: 5</label>
+        </form>
+
+        <div id="tentativasContainer">
+
+        </div>
+
+        <script>
+
+            const numbersList = '1234567890';
+            let number = [0, 0, 0, 0];
+
+            function generateRandomNumber() {
+                for(let i = 0; i < number.length; i++)
+                {
+                    number[i] = Math.floor(Math.random() * 9);
+                }
+                console.log(number);
+            }
+
+            function numberExist(num){
+                for(let i = 0; i < number.length; i++)
+                {
+                    if(num == number[i])
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            generateRandomNumber();
+
+            const maxTentativas = 10;
+            var tentativasRestantes = maxTentativas;
+
+            const in_num = document.getElementById('in_num');
+            in_num.oninput = () => {
+                if(!numbersList.includes(in_num.value[in_num.value.length-1])){
+                    in_num.value = in_num.value.slice(0, in_num.value.length);
+                }
+
+                if(in_num.value.length > 4){
+                    in_num.value = in_num.value.slice(0, 4);
+                }
+            }
+
+            const bt_num = document.getElementById('bt_num');
+            const tentativasLabel = document.getElementById('tentativasLabel');
+            tentativasLabel.innerHTML = 'Tentativas: ' + tentativasRestantes;
+            const tentativasContainer = document.getElementById('tentativasContainer');
+
+
+            class tentativa{
+                constructor(num1, num2, num3, num4){
+                    this.num1 = num1;
+                    this.num2 = num2;
+                    this.num3 = num3;
+                    this.num4 = num4;
+
+                    this.render();
+                }
+
+                render(){
+                    this.createElements();
+                    tentativasContainer.append(this.p);
+                }
+
+                createElements(){
+                    this.p = document.createElement('p');
+                    this.span1 = document.createElement('span');
+                    this.span2 = document.createElement('span');
+                    this.span3 = document.createElement('span');
+                    this.span4 = document.createElement('span');
+
+                    this.span1.innerHTML = this.num1;
+                    if(this.num1 == number[0]) //se existe e esta na posição correta
+                    {
+                        this.span1.style.color = 'rgb(0, 0, 255)';
+                    }
+                    else if(numberExist(this.num1)) //se existe e esta na posicao errada
+                    {
+                        this.span1.style.color = 'rgb(255, 100, 0)';
+                    }
+
+                    this.span2.innerHTML = this.num2;
+                    if(this.num2 == number[1]) //se existe e esta na posição correta
+                    {
+                        this.span2.style.color = 'rgb(0, 0, 255)';
+                    }
+                    else if(numberExist(this.num2)) //se existe e esta na posicao errada
+                    {
+                        this.span2.style.color = 'rgb(255, 100, 0)';
+                    }
+
+                    this.span3.innerHTML = this.num3;
+                    if(this.num3 == number[2]) //se existe e esta na posição correta
+                    {
+                        this.span3.style.color = 'rgb(0, 0, 255)';
+                    }
+                    else if(numberExist(this.num3)) //se existe e esta na posicao errada
+                    {
+                        this.span3.style.color = 'rgb(255, 100, 0)';
+                    }
+
+                    this.span4.innerHTML = this.num4;
+                    if(this.num4 == number[3]) //se existe e esta na posição correta
+                    {
+                        this.span4.style.color = 'rgb(0, 0, 255)';
+                    }
+                    else if(numberExist(this.num4)) //se existe e esta na posicao errada
+                    {
+                        this.span4.style.color = 'rgb(255, 100, 0)';
+                    }
+
+                    this.p.append(this.span1);
+                    this.p.append(this.span2);
+                    this.p.append(this.span3);
+                    this.p.append(this.span4);
+                }
+            }
+
+            function testarNumero(){
+                in_numbers = in_num.value;
+                if(in_numbers[0] == number[0] && in_numbers[1] == number[1] && in_numbers[2] == number[2] && in_numbers[3] == number[3])
+                {
+                    tentativasRestantes = maxTentativas;
+                    generateRandomNumber();
+                    alert('Parabéns! Você acertou o número.');
+                    tentativasContainer.innerHTML = "";
+                }
+                else
+                {
+                    tentativasRestantes--;
+                    new tentativa(in_numbers[0], in_numbers[1], in_numbers[2], in_numbers[3]);
+
+                    if(tentativasRestantes <= 0)
+                    {
+                        tentativasRestantes = maxTentativas;
+                        alert('Você perdeu! o número correto era: ' + number[0] + number[1] + number[2] + number[3]);
+                        generateRandomNumber();
+                        tentativasContainer.innerHTML = "";
+                    }
+                }
+
+                tentativasLabel.innerHTML = 'Tentativas: ' + tentativasRestantes;
+            }
+
+            bt_num.onclick = testarNumero;
+        </script>
+    </body>
+</html>
